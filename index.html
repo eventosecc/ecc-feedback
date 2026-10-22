@@ -40,7 +40,8 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:24px 0 0}
         <h2>Sobre você e o evento</h2><p class="hint">Preencha os dados para identificarmos e organizarmos cada avaliação.</p>
         <div class="field"><label for="person">Seu nome <span class="required">*</span></label><input id="person" name="person" type="text" autocomplete="name" required placeholder="Nome e sobrenome"></div>
         <div class="field"><label for="event">Nome do evento <span class="required">*</span></label><input id="event" name="event" type="text" required placeholder="Ex.: Congresso, lançamento, encontro interno"></div>
-        <div class="field"><label for="event-date">Data do evento <span class="required">*</span></label><input id="event-date" name="event_date" type="date" required></div>
+        <div class="field"><label for="event-start-date">Data de início do evento <span class="required">*</span></label><input id="event-start-date" name="event_start_date" type="date" required></div>
+        <div class="field"><label for="event-end-date">Data de término do evento <span class="required">*</span></label><input id="event-end-date" name="event_end_date" type="date" required></div>
       </section>
       <section class="section">
         <h2>Avaliação da experiência</h2><p class="hint">Selecione uma nota de 1 a 5, em que 1 é muito ruim e 5 é excelente.</p>
@@ -81,12 +82,27 @@ document.querySelectorAll('.rating').forEach(group => {
   }
 });
 
+const startDateInput = document.getElementById('event-start-date');
+const endDateInput = document.getElementById('event-end-date');
+
+function validateEventDates() {
+  const start = startDateInput.value;
+  const end = endDateInput.value;
+  endDateInput.setCustomValidity(start && end && end < start
+    ? 'A data de término não pode ser anterior à data de início.'
+    : '');
+}
+startDateInput.addEventListener('change', validateEventDates);
+endDateInput.addEventListener('change', validateEventDates);
+
 const form = document.getElementById('feedback-form');
 const submitButton = document.getElementById('submit-btn');
 const errorBox = document.getElementById('error-message');
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
+  validateEventDates();
+  if (!form.reportValidity()) return;
   errorBox.classList.add('hidden');
   errorBox.textContent = '';
 
@@ -99,7 +115,8 @@ form.addEventListener('submit', async (e) => {
   const payload = {
     collaborator_name: String(values.get('person') || '').trim(),
     event_name: String(values.get('event') || '').trim(),
-    event_date: String(values.get('event_date') || ''),
+    event_start_date: String(values.get('event_start_date') || ''),
+    event_end_date: String(values.get('event_end_date') || ''),
     organization_rating: rating('organization'),
     communication_rating: rating('communication'),
     venue_rating: rating('venue'),
