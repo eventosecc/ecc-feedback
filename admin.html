@@ -1,208 +1,43 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel Administrativo | ECC Feedback</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    :root { --green:#16794b; --dark:#17372b; --muted:#66736d; --line:#dfe7e2; --bg:#f5f8f6; --white:#fff; }
-    * { box-sizing:border-box; }
-    body { margin:0; font-family:Arial,Helvetica,sans-serif; color:#20332a; background:var(--bg); }
-    header { background:var(--dark); color:#fff; padding:22px max(20px,calc((100% - 1180px)/2)); display:flex; align-items:center; justify-content:space-between; gap:16px; }
-    header h1 { font-size:21px; margin:0; } header p { margin:5px 0 0; color:#d5e4dc; font-size:13px; }
-    main { max-width:1180px; margin:28px auto; padding:0 18px 48px; }
-    .panel { background:var(--white); border:1px solid var(--line); border-radius:14px; padding:24px; box-shadow:0 4px 18px #193c2a0a; }
-    .login { max-width:430px; margin:48px auto; }
-    label { display:block; font-weight:600; font-size:14px; margin:14px 0 7px; }
-    input, select { width:100%; padding:12px; border:1px solid #cbd8d0; border-radius:8px; font:inherit; background:#fff; }
-    button { border:0; border-radius:8px; background:var(--green); color:white; padding:12px 16px; font-weight:700; cursor:pointer; }
-    button.secondary { background:#e7f0eb; color:#20553b; } button:disabled { opacity:.6; cursor:wait; }
-    .full { width:100%; margin-top:18px; } .muted { color:var(--muted); font-size:14px; line-height:1.5; }
-    .error { color:#a32323; margin-top:12px; font-size:14px; } .success { color:#17643d; }
-    .topline { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:20px; }
-    .topline h2 { margin:0 0 5px; font-size:24px; }
-    .filters { display:grid; grid-template-columns:repeat(3,minmax(160px,1fr)); gap:14px; margin-bottom:18px; }
-    .stats { display:grid; grid-template-columns:repeat(4,minmax(150px,1fr)); gap:14px; margin:18px 0; }
-    .stat { background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px; }
-    .stat .label { color:var(--muted); font-size:13px; margin-bottom:10px; } .stat .value { font-size:28px; font-weight:700; color:var(--dark); }
-    .section-title { margin:26px 0 12px; font-size:18px; }
-    .ratings { display:grid; grid-template-columns:repeat(4,minmax(150px,1fr)); gap:12px; }
-    .rating { padding:15px; border:1px solid var(--line); border-radius:10px; }
-    .rating strong { display:block; font-size:23px; margin-top:8px; }
-    .tablewrap { overflow:auto; border:1px solid var(--line); border-radius:10px; background:#fff; }
-    table { border-collapse:collapse; width:100%; min-width:800px; font-size:13px; }
-    th,td { padding:12px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; }
-    th { background:#f0f5f2; color:#31483b; }
-    .comments { white-space:pre-wrap; min-width:180px; max-width:280px; }
-    .empty { padding:22px; text-align:center; color:var(--muted); }
-    .hide { display:none !important; }
-    @media(max-width:760px) { .filters,.stats,.ratings { grid-template-columns:repeat(2,minmax(0,1fr)); } header { align-items:flex-start; flex-direction:column; } }
-    @media(max-width:480px) { .filters,.stats,.ratings { grid-template-columns:1fr; } .panel { padding:17px; } }
-  </style>
-</head>
-<body>
-<header>
-  <div><h1>ECC Feedback</h1><p>Painel administrativo de avaliações</p></div>
-  <button id="logoutBtn" class="secondary hide" type="button">Sair</button>
-</header>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Painel administrativo | ECC Feedback</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--green:#16794b;--dark:#17372b;--muted:#66736d;--line:#dfe7e2;--bg:#f5f8f6;--white:#fff}*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#20332a;background:var(--bg)}header{background:var(--dark);color:white;padding:22px max(20px,calc((100% - 1250px)/2));display:flex;justify-content:space-between;align-items:center;gap:14px}header h1{font-size:21px;margin:0}header p{font-size:13px;color:#d5e4dc;margin:5px 0 0}main{max-width:1250px;margin:28px auto;padding:0 18px 50px}.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:18px}.login{max-width:430px;margin:48px auto}label{display:block;font-size:13px;font-weight:700;margin:13px 0 7px}input,select{width:100%;padding:11px;border:1px solid #cbd8d0;border-radius:8px;font:inherit;background:#fff}button{border:0;border-radius:8px;background:var(--green);color:white;padding:11px 15px;font-weight:700;cursor:pointer}button.secondary{background:#e7f0eb;color:#20553b}button:disabled{opacity:.6}.hide{display:none!important}.muted{color:var(--muted);font-size:13px}.error{color:#a32929;margin-top:10px}.topline{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.filters,.stats,.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.filters{margin:18px 0}.stat,.metric{border:1px solid var(--line);border-radius:10px;padding:14px;background:#fff}.stat .label{font-size:12px;color:var(--muted)}.value{font-size:25px;font-weight:700;margin-top:6px}.metric strong{display:block;font-size:22px;margin-top:5px}.section-title{font-size:17px;margin:25px 0 12px}.tablewrap{overflow:auto;margin-top:14px}table{border-collapse:collapse;width:100%;font-size:12px;min-width:1300px}th,td{text-align:left;vertical-align:top;padding:10px;border-bottom:1px solid var(--line)}th{background:#f3f7f4;position:sticky;top:0}.comments{min-width:180px;max-width:280px;white-space:pre-wrap}.pill{display:inline-block;background:#e7f0eb;border-radius:20px;padding:4px 8px;font-size:11px}.empty{padding:24px;text-align:center;color:var(--muted)}.recommendation{display:flex;gap:12px;flex-wrap:wrap;font-size:13px}.recommendation span{background:#f3f7f4;border-radius:8px;padding:8px 10px}.small{font-size:11px;color:var(--muted)}@media(max-width:800px){.filters,.stats,.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:480px){.filters,.stats,.grid{grid-template-columns:1fr}header{align-items:flex-start;flex-direction:column}}
+</style></head><body>
+<header><div><h1>ECC Feedback</h1><p>Painel administrativo · Avaliação de eventos</p></div><button id="logoutBtn" class="hide" type="button">Sair</button></header>
 <main>
-  <section id="loginPanel" class="panel login">
-    <h2>Entrar no painel</h2>
-    <p class="muted">Acesso restrito à equipe autorizada da Editora Cultura Cristã.</p>
-    <form id="loginForm">
-      <label for="email">E-mail</label>
-      <input id="email" type="email" autocomplete="username" required placeholder="seu e-mail">
-      <label for="password">Senha</label>
-      <input id="password" type="password" autocomplete="current-password" required placeholder="sua senha">
-      <button id="loginBtn" class="full" type="submit">Entrar</button>
-      <div id="loginError" class="error" role="alert"></div>
-    </form>
-  </section>
-
-  <section id="dashboard" class="hide">
-    <div class="topline">
-      <div><h2>Visão geral</h2><div id="welcome" class="muted"></div></div>
-      <button id="refreshBtn" type="button">Atualizar dados</button>
-    </div>
-    <section class="panel">
-      <div class="filters">
-        <div><label for="eventFilter">Evento</label><select id="eventFilter"><option value="">Todos os eventos</option></select></div>
-        <div><label for="startFilter">Data inicial do evento (a partir de)</label><input id="startFilter" type="date"></div>
-        <div><label for="endFilter">Data final do evento (até)</label><input id="endFilter" type="date"></div>
-      </div>
-      <div id="loadMessage" class="muted">Carregando avaliações…</div>
-      <div class="stats">
-        <div class="stat"><div class="label">Total de avaliações</div><div id="totalStat" class="value">—</div></div>
-        <div class="stat"><div class="label">Média geral (0–10)</div><div id="overallStat" class="value">—</div></div>
-        <div class="stat"><div class="label">Média de organização</div><div id="organizationStat" class="value">—</div></div>
-        <div class="stat"><div class="label">Média de comunicação</div><div id="communicationStat" class="value">—</div></div>
-      </div>
-      <h3 class="section-title">Notas por categoria</h3>
-      <div class="ratings">
-        <div class="rating">Organização<strong id="organizationRating">—</strong><span class="muted">de 5</span></div>
-        <div class="rating">Comunicação<strong id="communicationRating">—</strong><span class="muted">de 5</span></div>
-        <div class="rating">Local<strong id="venueRating">—</strong><span class="muted">de 5</span></div>
-        <div class="rating">Programação<strong id="scheduleRating">—</strong><span class="muted">de 5</span></div>
-      </div>
-      <div class="topline" style="margin-top:26px">
-        <h3 class="section-title" style="margin:0">Respostas recebidas</h3>
-        <button id="csvBtn" class="secondary" type="button">Exportar CSV</button>
-      </div>
-      <div id="tableContainer" class="tablewrap"><div class="empty">As respostas aparecerão aqui.</div></div>
-      <p class="muted">As avaliações são ordenadas da mais recente para a mais antiga. Os filtros afetam os indicadores, a tabela e o CSV.</p>
-    </section>
-  </section>
+<section id="loginPanel" class="panel login"><h2>Acesso administrativo</h2><p class="muted">Entre com seu e-mail autorizado e sua senha.</p><form id="loginForm"><label for="email">E-mail</label><input id="email" type="email" required autocomplete="username"><label for="password">Senha</label><input id="password" type="password" required autocomplete="current-password"><button id="loginBtn" style="width:100%;margin-top:18px">Entrar</button><div id="loginError" class="error" role="alert"></div></form></section>
+<section id="dashboard" class="hide"><div class="topline"><div><h2>Visão geral</h2><div id="welcome" class="muted"></div></div><button id="refreshBtn" type="button">Atualizar dados</button></div>
+<section class="panel"><h3 class="section-title" style="margin-top:0">Filtros</h3><div class="filters"><div><label for="eventFilter">Evento</label><select id="eventFilter"><option value="">Todos os eventos</option></select></div><div><label for="typeFilter">Tipo de participação</label><select id="typeFilter"><option value="">Todos os tipos</option><option value="ecc_ipb_organized">Organizado pela ECC/IPB</option><option value="third_party_stand">Terceiros com estande</option><option value="third_party_no_stand">Terceiros sem estande</option><option value="other">Outro</option><option value="legacy">Avaliações antigas</option></select></div><div><label for="startFilter">Data inicial (a partir de)</label><input id="startFilter" type="date"></div><div><label for="endFilter">Data final (até)</label><input id="endFilter" type="date"></div></div><div id="loadMessage" class="muted">Carregando avaliações…</div>
+<div class="stats"><div class="stat"><div class="label">Total de avaliações</div><div id="totalStat" class="value">—</div></div><div class="stat"><div class="label">Média geral (0–10)</div><div id="overallStat" class="value">—</div></div><div class="stat"><div class="label">Recomendam participar (Sim)</div><div id="yesStat" class="value">—</div></div><div class="stat"><div class="label">Recomendam com ajustes</div><div id="adjustStat" class="value">—</div></div></div>
+<h3 class="section-title">Médias — atuação da ECC (1–5)</h3><div class="grid"><div class="metric">Planejamento<strong id="eccPlanning">—</strong></div><div class="metric">Comunicação interna<strong id="eccCommunication">—</strong></div><div class="metric">Materiais<strong id="eccMaterials">—</strong></div><div class="metric">Logística<strong id="eccLogistics">—</strong></div><div class="metric">Equipe<strong id="eccTeamwork">—</strong></div><div class="metric">Resultados<strong id="eccResults">—</strong></div><div class="metric">Estande<strong id="eccStand">—</strong></div></div>
+<h3 class="section-title">Médias — organização externa (1–5)</h3><div class="grid"><div class="metric">Comunicação com expositores<strong id="orgCommunication">—</strong></div><div class="metric">Infraestrutura<strong id="orgInfrastructure">—</strong></div><div class="metric">Localização e fluxo<strong id="orgLocation">—</strong></div><div class="metric">Montagem/desmontagem<strong id="orgSetup">—</strong></div><div class="metric">Suporte<strong id="orgSupport">—</strong></div><div class="metric">Programação e público<strong id="orgProgram">—</strong></div><div class="metric">Custo-benefício<strong id="orgCost">—</strong></div></div>
+<h3 class="section-title">Recomendação para a próxima edição</h3><div id="recommendationSummary" class="recommendation"></div>
+<div class="topline" style="margin-top:26px"><h3 class="section-title" style="margin:0">Respostas recebidas</h3><button id="csvBtn" class="secondary" type="button">Exportar CSV</button></div><div id="tableContainer" class="tablewrap"><div class="empty">As respostas aparecerão aqui.</div></div><p class="small">Avaliações antigas continuam preservadas. Os campos novos aparecerão vazios nas respostas enviadas antes da atualização.</p></section></section>
 </main>
 <script>
-  const SUPABASE_URL = 'https://aktmdusegtpgfimypwbi.supabase.co';
-  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_AaU899teNG2lmb_AsHQ1HA_XEijQG5R';
-  const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-  let allRows = [];
-  const $ = (id) => document.getElementById(id);
-  const esc = (value) => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const fmtDate = (value) => value ? new Date(value + 'T12:00:00').toLocaleDateString('pt-BR') : '—';
-  const average = (rows, key) => {
-    const values = rows.map(r => Number(r[key])).filter(n => Number.isFinite(n));
-    return values.length ? (values.reduce((a,b)=>a+b,0)/values.length).toFixed(1).replace('.', ',') : '—';
-  };
-
-  $('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    $('loginError').textContent = '';
-    $('loginBtn').disabled = true;
-    $('loginBtn').textContent = 'Entrando…';
-    const { error } = await client.auth.signInWithPassword({
-      email: $('email').value.trim(),
-      password: $('password').value
-    });
-    $('loginBtn').disabled = false;
-    $('loginBtn').textContent = 'Entrar';
-    if (error) { $('loginError').textContent = 'Não foi possível entrar. Confira o e-mail e a senha.'; return; }
-    await showDashboard();
-  });
-
-  $('logoutBtn').addEventListener('click', async () => {
-    await client.auth.signOut();
-    $('dashboard').classList.add('hide');
-    $('logoutBtn').classList.add('hide');
-    $('loginPanel').classList.remove('hide');
-  });
-  $('refreshBtn').addEventListener('click', loadRows);
-  ['eventFilter','startFilter','endFilter'].forEach(id => $(id).addEventListener('change', renderDashboard));
-  $('csvBtn').addEventListener('click', exportCsv);
-
-  async function showDashboard() {
-    const { data: { user } } = await client.auth.getUser();
-    if (!user) return;
-    $('loginPanel').classList.add('hide');
-    $('dashboard').classList.remove('hide');
-    $('logoutBtn').classList.remove('hide');
-    $('welcome').textContent = 'Conectada como ' + user.email;
-    await loadRows();
-  }
-  async function loadRows() {
-    $('loadMessage').textContent = 'Carregando avaliações…';
-    const { data, error } = await client.from('event_feedback')
-      .select('id, collaborator_name, event_name, event_start_date, event_end_date, organization_rating, communication_rating, venue_rating, schedule_rating, overall_rating, positive_points, improvement_points, suggestions, created_at')
-      .order('created_at', { ascending: false });
-    if (error) {
-      $('loadMessage').textContent = 'Não foi possível carregar as respostas. Verifique a política de leitura no Supabase.';
-      $('tableContainer').innerHTML = '<div class="empty">A leitura ainda não está autorizada para esta conta ou houve um erro de conexão.</div>';
-      return;
-    }
-    allRows = data || [];
-    const names = [...new Set(allRows.map(r => r.event_name).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
-    const previous = $('eventFilter').value;
-    $('eventFilter').innerHTML = '<option value="">Todos os eventos</option>' + names.map(n => `<option value="${esc(n)}">${esc(n)}</option>`).join('');
-    if (names.includes(previous)) $('eventFilter').value = previous;
-    $('loadMessage').textContent = allRows.length ? `${allRows.length} avaliação(ões) carregada(s).` : 'Nenhuma avaliação encontrada.';
-    renderDashboard();
-  }
-  function getFilteredRows() {
-    const event = $('eventFilter').value, start = $('startFilter').value, end = $('endFilter').value;
-    return allRows.filter(r => (!event || r.event_name === event) &&
-      (!start || (r.event_start_date && r.event_start_date >= start)) &&
-      (!end || (r.event_end_date && r.event_end_date <= end)));
-  }
-  function renderDashboard() {
-    const rows = getFilteredRows();
-    $('totalStat').textContent = rows.length;
-    $('overallStat').textContent = average(rows,'overall_rating');
-    $('organizationStat').textContent = average(rows,'organization_rating');
-    $('communicationStat').textContent = average(rows,'communication_rating');
-    $('organizationRating').textContent = average(rows,'organization_rating');
-    $('communicationRating').textContent = average(rows,'communication_rating');
-    $('venueRating').textContent = average(rows,'venue_rating');
-    $('scheduleRating').textContent = average(rows,'schedule_rating');
-    if (!rows.length) {
-      $('tableContainer').innerHTML = '<div class="empty">Nenhuma resposta corresponde aos filtros selecionados.</div>';
-      return;
-    }
-    const headings = ['Colaborador','Evento','Período','Organização','Comunicação','Local','Programação','Nota geral','Pontos positivos','A melhorar','Sugestões','Recebida em'];
-    const body = rows.map(r => `<tr>
-      <td>${esc(r.collaborator_name)}</td><td>${esc(r.event_name)}</td>
-      <td>${fmtDate(r.event_start_date)} – ${fmtDate(r.event_end_date)}</td>
-      <td>${esc(r.organization_rating ?? '—')}</td><td>${esc(r.communication_rating ?? '—')}</td>
-      <td>${esc(r.venue_rating ?? '—')}</td><td>${esc(r.schedule_rating ?? '—')}</td><td>${esc(r.overall_rating ?? '—')}</td>
-      <td class="comments">${esc(r.positive_points || '—')}</td><td class="comments">${esc(r.improvement_points || '—')}</td>
-      <td class="comments">${esc(r.suggestions || '—')}</td><td>${r.created_at ? esc(new Date(r.created_at).toLocaleString('pt-BR')) : '—'}</td>
-    </tr>`).join('');
-    $('tableContainer').innerHTML = `<table><thead><tr>${headings.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table>`;
-  }
-  function exportCsv() {
-    const rows = getFilteredRows();
-    const cols = [
-      ['collaborator_name','Colaborador'],['event_name','Evento'],['event_start_date','Data inicial'],['event_end_date','Data final'],
-      ['organization_rating','Organização'],['communication_rating','Comunicação'],['venue_rating','Local'],['schedule_rating','Programação'],
-      ['overall_rating','Nota geral'],['positive_points','Pontos positivos'],['improvement_points','A melhorar'],['suggestions','Sugestões'],['created_at','Recebida em']
-    ];
-    const cell = v => '"' + String(v ?? '').replace(/"/g,'""') + '"';
-    const csv = '\uFEFF' + [cols.map(c=>cell(c[1])).join(';'), ...rows.map(r=>cols.map(c=>cell(r[c[0]] ?? '')).join(';'))].join('\r\n');
-    const url = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8;'}));
-    const a = document.createElement('a'); a.href=url; a.download='ecc-feedback-avaliacoes.csv'; a.click(); URL.revokeObjectURL(url);
-  }
-  client.auth.getSession().then(({data}) => { if (data.session) showDashboard(); });
-</script>
-</body>
-</html>
+const SUPABASE_URL='https://aktmdusegtpgfimypwbi.supabase.co',SUPABASE_PUBLISHABLE_KEY='sb_publishable_AaU899teNG2lmb_AsHQ1HA_XEijQG5R';
+const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);let allRows=[];const $=id=>document.getElementById(id);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmtDate=v=>v?new Date(v+'T12:00:00').toLocaleDateString('pt-BR'):'—';
+const average=(rows,key)=>{const vals=rows.map(r=>r[key]).filter(v=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v))).map(Number);return vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1).replace('.',','):'—'};
+const typeLabels={ecc_ipb_organized:'ECC/IPB organizou',third_party_stand:'Terceiros com estande',third_party_no_stand:'Terceiros sem estande',other:'Outro'};
+const recLabels={yes:'Sim',yes_with_adjustments:'Sim, com ajustes',no:'Não',insufficient_information:'Informações insuficientes'};
+$('loginForm').addEventListener('submit',async e=>{e.preventDefault();$('loginError').textContent='';$('loginBtn').disabled=true;$('loginBtn').textContent='Entrando…';const {error}=await client.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});$('loginBtn').disabled=false;$('loginBtn').textContent='Entrar';if(error){$('loginError').textContent='Não foi possível entrar. Confira o e-mail e a senha.';return;}await showDashboard();});
+$('logoutBtn').addEventListener('click',async()=>{await client.auth.signOut();$('dashboard').classList.add('hide');$('logoutBtn').classList.add('hide');$('loginPanel').classList.remove('hide');});
+$('refreshBtn').addEventListener('click',loadRows);['eventFilter','typeFilter','startFilter','endFilter'].forEach(id=>$(id).addEventListener('change',renderDashboard));$('csvBtn').addEventListener('click',exportCsv);
+async function showDashboard(){const {data:{user}}=await client.auth.getUser();if(!user)return;$('loginPanel').classList.add('hide');$('dashboard').classList.remove('hide');$('logoutBtn').classList.remove('hide');$('welcome').textContent='Conectada como '+user.email;await loadRows();}
+async function loadRows(){$('loadMessage').textContent='Carregando avaliações…';
+const fields='id,collaborator_name,event_name,event_start_date,event_end_date,organization_rating,communication_rating,venue_rating,schedule_rating,overall_rating,positive_points,improvement_points,suggestions,created_at,participation_type,participation_other,ecc_planning_rating,ecc_internal_communication_rating,ecc_materials_rating,ecc_stand_rating,ecc_logistics_rating,ecc_teamwork_rating,ecc_results_rating,organizer_communication_rating,organizer_infrastructure_rating,organizer_location_flow_rating,organizer_setup_rating,organizer_support_rating,organizer_program_flow_rating,organizer_cost_benefit_rating,ecc_positive_points,ecc_improvement_points,organizer_positive_points,organizer_improvement_points,next_edition_recommendation,next_edition_reason,future_recommendations';
+const {data,error}=await client.from('event_feedback').select(fields).order('created_at',{ascending:false});
+if(error){$('loadMessage').textContent='Não foi possível carregar os dados. Confirme se a migração SQL foi executada e se a política de leitura administrativa está ativa.';$('tableContainer').innerHTML='<div class="empty">Verifique a migração do banco e a política RLS.</div>';return;}
+allRows=data||[];const names=[...new Set(allRows.map(r=>r.event_name).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));const prev=$('eventFilter').value;$('eventFilter').innerHTML='<option value="">Todos os eventos</option>'+names.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');if(names.includes(prev))$('eventFilter').value=prev;$('loadMessage').textContent=`${allRows.length} avaliação(ões) carregada(s).`;renderDashboard();}
+function filtered(){const ev=$('eventFilter').value,typ=$('typeFilter').value,start=$('startFilter').value,end=$('endFilter').value;return allRows.filter(r=>(!ev||r.event_name===ev)&&(!typ||(typ==='legacy'?!r.participation_type:r.participation_type===typ))&&(!start||(r.event_start_date&&r.event_start_date>=start))&&(!end||(r.event_end_date&&r.event_end_date<=end)));}
+function renderDashboard(){const rows=filtered();$('totalStat').textContent=rows.length;$('overallStat').textContent=average(rows,'overall_rating');const yes=rows.filter(r=>r.next_edition_recommendation==='yes').length,adj=rows.filter(r=>r.next_edition_recommendation==='yes_with_adjustments').length;$('yesStat').textContent=rows.some(r=>r.next_edition_recommendation)?`${yes} (${Math.round(yes/rows.filter(r=>r.next_edition_recommendation).length*100)}%)`:'—';$('adjustStat').textContent=rows.some(r=>r.next_edition_recommendation)?`${adj} (${Math.round(adj/rows.filter(r=>r.next_edition_recommendation).length*100)}%)`:'—';
+const metrics={eccPlanning:'ecc_planning_rating',eccCommunication:'ecc_internal_communication_rating',eccMaterials:'ecc_materials_rating',eccStand:'ecc_stand_rating',eccLogistics:'ecc_logistics_rating',eccTeamwork:'ecc_teamwork_rating',eccResults:'ecc_results_rating',orgCommunication:'organizer_communication_rating',orgInfrastructure:'organizer_infrastructure_rating',orgLocation:'organizer_location_flow_rating',orgSetup:'organizer_setup_rating',orgSupport:'organizer_support_rating',orgProgram:'organizer_program_flow_rating',orgCost:'organizer_cost_benefit_rating'};for(const [id,key] of Object.entries(metrics))$(id).textContent=average(rows,key);
+const counts=Object.entries(recLabels).map(([k,v])=>[v,rows.filter(r=>r.next_edition_recommendation===k).length]);$('recommendationSummary').innerHTML=counts.map(([label,n])=>`<span>${esc(label)}: <strong>${n}</strong></span>`).join('');
+if(!rows.length){$('tableContainer').innerHTML='<div class="empty">Nenhuma resposta corresponde aos filtros selecionados.</div>';return;}
+const cols=[['collaborator_name','Colaborador'],['event_name','Evento'],['event_start_date','Início'],['event_end_date','Término'],['participation_type','Tipo'],['ecc_planning_rating','ECC: planejamento'],['ecc_internal_communication_rating','ECC: comunicação'],['ecc_materials_rating','ECC: materiais'],['ecc_stand_rating','ECC: estande'],['ecc_logistics_rating','ECC: logística'],['ecc_teamwork_rating','ECC: equipe'],['ecc_results_rating','ECC: resultados'],['organizer_communication_rating','Org.: comunicação'],['organizer_infrastructure_rating','Org.: infraestrutura'],['organizer_location_flow_rating','Org.: localização/fluxo'],['organizer_setup_rating','Org.: montagem'],['organizer_support_rating','Org.: suporte'],['organizer_program_flow_rating','Org.: programação/fluxo'],['organizer_cost_benefit_rating','Org.: custo-benefício'],['organization_rating','Avaliação antiga: organização'],['communication_rating','Avaliação antiga: comunicação'],['venue_rating','Avaliação antiga: local'],['schedule_rating','Avaliação antiga: programação'],['positive_points','Avaliação antiga: pontos positivos'],['improvement_points','Avaliação antiga: melhorias'],['suggestions','Avaliação antiga: sugestões'],['overall_rating','Nota geral'],['next_edition_recommendation','Próxima edição'],['next_edition_reason','Motivo da decisão'],['ecc_positive_points','Pontos positivos ECC'],['ecc_improvement_points','Melhorias ECC'],['organizer_positive_points','Pontos positivos organização'],['organizer_improvement_points','Melhorias organização'],['future_recommendations','Sugestões futuras'],['created_at','Recebida em']];
+const cell=(r,k)=>k==='participation_type'?(r.participation_type?typeLabels[r.participation_type]||r.participation_other||r.participation_type:'Avaliação antiga'):k==='next_edition_recommendation'?(recLabels[r[k]]||'—'):k.endsWith('_date')?fmtDate(r[k]):k==='created_at'?(r[k]?new Date(r[k]).toLocaleString('pt-BR'):'—'):(r[k]??'—');
+const body=rows.map(r=>`<tr>${cols.map(([k])=>`<td class="${/points|reason|recommendations/.test(k)?'comments':''}">${esc(cell(r,k))}</td>`).join('')}</tr>`).join('');$('tableContainer').innerHTML=`<table><thead><tr>${cols.map(([,label])=>`<th>${esc(label)}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table>`;}
+function exportCsv(){const rows=filtered();const cols=[['collaborator_name','Colaborador'],['event_name','Evento'],['event_start_date','Data inicial'],['event_end_date','Data final'],['participation_type','Tipo de participação'],['participation_other','Outro tipo'],['ecc_planning_rating','ECC planejamento'],['ecc_internal_communication_rating','ECC comunicação interna'],['ecc_materials_rating','ECC materiais'],['ecc_stand_rating','ECC estande'],['ecc_logistics_rating','ECC logística'],['ecc_teamwork_rating','ECC equipe'],['ecc_results_rating','ECC resultados'],['organizer_communication_rating','Organização comunicação'],['organizer_infrastructure_rating','Organização infraestrutura'],['organizer_location_flow_rating','Organização localização/fluxo'],['organizer_setup_rating','Organização montagem'],['organizer_support_rating','Organização suporte'],['organizer_program_flow_rating','Organização programação/fluxo'],['organizer_cost_benefit_rating','Organização custo-benefício'],['organization_rating','Avaliação antiga: organização'],['communication_rating','Avaliação antiga: comunicação'],['venue_rating','Avaliação antiga: local'],['schedule_rating','Avaliação antiga: programação'],['positive_points','Avaliação antiga: pontos positivos'],['improvement_points','Avaliação antiga: melhorias'],['suggestions','Avaliação antiga: sugestões'],['overall_rating','Nota geral'],['next_edition_recommendation','Recomendação próxima edição'],['next_edition_reason','Justificativa'],['ecc_positive_points','Pontos positivos ECC'],['ecc_improvement_points','Melhorias ECC'],['organizer_positive_points','Pontos positivos organização'],['organizer_improvement_points','Melhorias organização'],['future_recommendations','Sugestões futuras'],['created_at','Recebida em']];const cell=v=>'"'+String(v??'').replace(/"/g,'""')+'"';const csv='\uFEFF'+[cols.map(c=>cell(c[1])).join(';'),...rows.map(r=>cols.map(c=>cell(r[c[0]]??'')).join(';'))].join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));const a=document.createElement('a');a.href=url;a.download='ecc-feedback-avaliacoes.csv';a.click();URL.revokeObjectURL(url);}
+client.auth.getSession().then(({data})=>{if(data.session)showDashboard();});
+</script></body></html>
