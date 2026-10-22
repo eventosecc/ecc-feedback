@@ -1,166 +1,143 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ECC Feedback | Avaliação de Eventos</title>
-<meta name="description" content="Formulário de avaliação de eventos da Editora Cultura Cristã.">
+<meta name="description" content="Formulário interno de avaliação de eventos da Editora Cultura Cristã.">
 <style>
 :root{--ink:#1d2926;--muted:#68736f;--line:#e3e8e5;--paper:#f6f8f6;--white:#fff;--accent:#244d40;--accent2:#dce8e1;--danger:#a33b32}
-*{box-sizing:border-box} body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
-.wrap{max-width:760px;margin:0 auto;padding:32px 18px 60px}.brand{display:flex;align-items:center;gap:12px;margin-bottom:30px}.mark{width:42px;height:42px;border:1px solid #c8d4cd;border-radius:12px;display:grid;place-items:center;color:var(--accent);font-weight:800;letter-spacing:-1px;background:#fff}.brand-name{font-size:13px;font-weight:750;letter-spacing:.12em;text-transform:uppercase}.brand-sub{font-size:12px;color:var(--muted);margin-top:2px}
-.hero{margin-bottom:24px}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.16em;font-weight:750;color:var(--accent);margin-bottom:8px}.hero h1{font-size:clamp(30px,5vw,42px);line-height:1.08;letter-spacing:-.045em;margin:0 0 12px;font-weight:720}.hero p{margin:0;color:var(--muted);max-width:590px}
-form,.success,.error-box{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,4vw,34px);box-shadow:0 8px 30px #1c32250a}
-.section{padding:0 0 25px;margin:0 0 25px;border-bottom:1px solid var(--line)}.section:last-of-type{border:0;padding-bottom:0;margin-bottom:18px}.section h2{font-size:15px;margin:0 0 5px;letter-spacing:-.01em}.section .hint{font-size:13px;color:var(--muted);margin:0 0 18px}
-.field{margin:0 0 18px}.field:last-child{margin-bottom:0}label,.label{display:block;font-size:13px;font-weight:650;margin-bottom:8px}.required{color:var(--accent)} input[type=text],input[type=date],textarea{width:100%;border:1px solid #d8e0db;border-radius:10px;padding:12px 13px;font:inherit;font-size:14px;color:var(--ink);background:#fff;outline:none}input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #244d4017}textarea{min-height:94px;resize:vertical}
-.rating{display:flex;gap:8px;flex-wrap:wrap}.rating label{margin:0;cursor:pointer}.rating input{position:absolute;opacity:0;pointer-events:none}.rating span{display:grid;place-items:center;width:43px;height:42px;border:1px solid #d8e0db;border-radius:10px;font-size:14px;font-weight:650;background:white;transition:.15s}.rating input:checked+span{background:var(--accent);border-color:var(--accent);color:white}.rating label:hover span{border-color:var(--accent)}
-.scale-note{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:7px}
-button{width:100%;border:0;border-radius:11px;padding:14px 18px;background:var(--accent);color:#fff;font:inherit;font-weight:700;cursor:pointer}button:hover{filter:brightness(1.08)}button:disabled{opacity:.6;cursor:wait}.privacy{font-size:11px;color:var(--muted);text-align:center;margin:14px auto 0;max-width:540px}.success{text-align:center;padding:50px 28px}.check{width:50px;height:50px;border-radius:50%;background:var(--accent2);color:var(--accent);display:grid;place-items:center;margin:0 auto 16px;font-size:25px}.success h2{margin:0 0 8px;font-size:25px}.success p{color:var(--muted);margin:0}
-.error-box{border-color:#efc5c1;color:var(--danger);margin-bottom:16px;padding:16px 18px;font-size:14px}
-footer{text-align:center;color:var(--muted);font-size:11px;padding:24px 0 0}
-.hidden{display:none!important}
-@media(max-width:480px){.wrap{padding:24px 12px 40px}.brand{margin-bottom:25px}.rating{gap:6px}.rating span{width:39px;height:40px}}
-</style>
-</head>
-<body>
-<main class="wrap">
-  <header class="brand">
-    <div class="mark" aria-hidden="true">ECC</div>
-    <div><div class="brand-name">Editora Cultura Cristã</div><div class="brand-sub">Avaliação de eventos</div></div>
-  </header>
-  <section class="hero">
-    <div class="eyebrow">Sua opinião importa</div>
-    <h1>Vamos melhorar<br>juntos os próximos eventos.</h1>
-    <p>Compartilhe sua experiência. Suas respostas ajudam a reconhecer o que funcionou bem e identificar oportunidades de melhoria.</p>
-  </section>
-  <div id="form-area">
-    <div id="error-message" class="error-box hidden" role="alert"></div>
-    <form id="feedback-form">
-      <section class="section">
-        <h2>Sobre você e o evento</h2><p class="hint">Preencha os dados para identificarmos e organizarmos cada avaliação.</p>
-        <div class="field"><label for="person">Seu nome <span class="required">*</span></label><input id="person" name="person" type="text" autocomplete="name" required placeholder="Nome e sobrenome"></div>
-        <div class="field"><label for="event">Nome do evento <span class="required">*</span></label><input id="event" name="event" type="text" required placeholder="Ex.: Congresso, lançamento, encontro interno"></div>
-        <div class="field"><label for="event-start-date">Data de início do evento <span class="required">*</span></label><input id="event-start-date" name="event_start_date" type="date" required></div>
-        <div class="field"><label for="event-end-date">Data de término do evento <span class="required">*</span></label><input id="event-end-date" name="event_end_date" type="date" required></div>
-      </section>
-      <section class="section">
-        <h2>Avaliação da experiência</h2><p class="hint">Selecione uma nota de 1 a 5, em que 1 é muito ruim e 5 é excelente.</p>
-        <div class="field"><span class="label">Organização geral <span class="required">*</span></span><div class="rating" role="radiogroup" aria-label="Organização geral" data-name="organization"></div></div>
-        <div class="field"><span class="label">Comunicação e orientações antes do evento <span class="required">*</span></span><div class="rating" role="radiogroup" aria-label="Comunicação" data-name="communication"></div></div>
-        <div class="field"><span class="label">Local e infraestrutura <span class="required">*</span></span><div class="rating" role="radiogroup" aria-label="Local e infraestrutura" data-name="venue"></div></div>
-        <div class="field"><span class="label">Programação e cumprimento dos horários <span class="required">*</span></span><div class="rating" role="radiogroup" aria-label="Programação" data-name="program"></div></div>
-        <div class="scale-note"><span>1 · Muito ruim</span><span>5 · Excelente</span></div>
-      </section>
-      <section class="section">
-        <h2>Comentários e sugestões</h2><p class="hint">Respostas abertas são opcionais, mas ajudam muito no planejamento.</p>
-        <div class="field"><label for="positive">O que funcionou bem?</label><textarea id="positive" name="positive" placeholder="Conte o que você gostaria de manter nos próximos eventos."></textarea></div>
-        <div class="field"><label for="improve">O que poderia ter sido melhor?</label><textarea id="improve" name="improve" placeholder="Compartilhe oportunidades de melhoria."></textarea></div>
-        <div class="field"><label for="suggestions">Que sugestões você daria para os próximos eventos?</label><textarea id="suggestions" name="suggestions" placeholder="Ideias, necessidades ou sugestões."></textarea></div>
-        <div class="field"><span class="label">Nota geral do evento <span class="required">*</span></span><div class="rating" role="radiogroup" aria-label="Nota geral de 0 a 10" data-name="overall" data-max="10"></div><div class="scale-note"><span>0 · Não recomendaria</span><span>10 · Recomendaria muito</span></div></div>
-      </section>
-      <button type="submit" id="submit-btn">Enviar avaliação</button>
-      <p class="privacy">As respostas identificadas serão utilizadas pela Editora Cultura Cristã para avaliar e aprimorar a organização de seus eventos.</p>
-    </form>
-  </div>
-  <section id="success" class="success hidden" aria-live="polite"><div class="check">✓</div><h2>Obrigado pela sua contribuição!</h2><p>Sua avaliação foi enviada. Ela ajudará a aprimorar os próximos eventos da Editora Cultura Cristã.</p></section>
-  <footer>Editora Cultura Cristã · Feedback de eventos</footer>
-</main>
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+.wrap{max-width:780px;margin:0 auto;padding:32px 18px 60px}.brand{display:flex;align-items:center;gap:12px;margin-bottom:30px}.mark{width:42px;height:42px;border:1px solid #c8d4cd;border-radius:12px;display:grid;place-items:center;color:var(--accent);font-weight:800;background:#fff}.brand-name{font-size:13px;font-weight:750;letter-spacing:.12em;text-transform:uppercase}.brand-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.hero{margin-bottom:24px}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.16em;font-weight:750;color:var(--accent);margin-bottom:8px}.hero h1{font-size:clamp(30px,5vw,42px);line-height:1.08;letter-spacing:-.04em;margin:0 0 12px}.hero p{margin:0;color:var(--muted)}
+form,.success,.error-box{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,4vw,34px);box-shadow:0 8px 30px #1c32250a}.section{padding:0 0 25px;margin:0 0 25px;border-bottom:1px solid var(--line)}.section:last-of-type{border:0;padding-bottom:0;margin-bottom:18px}.section h2{font-size:16px;margin:0 0 5px}.hint{font-size:13px;color:var(--muted);margin:0 0 18px}
+.field{margin:0 0 18px}.field:last-child{margin-bottom:0}label,.label{display:block;font-size:13px;font-weight:650;margin-bottom:8px}.required{color:var(--accent)}input[type=text],input[type=date],select,textarea{width:100%;border:1px solid #d8e0db;border-radius:10px;padding:12px 13px;font:inherit;font-size:14px;color:var(--ink);background:#fff}input:focus,textarea:focus,select:focus{outline:2px solid #244d4025;border-color:var(--accent)}textarea{min-height:94px;resize:vertical}
+.options{display:grid;gap:9px}.options label{display:flex;gap:9px;align-items:flex-start;font-weight:500;margin:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px}.options input{margin-top:3px;accent-color:var(--accent)}.rating{display:flex;gap:8px;flex-wrap:wrap}.rating label{margin:0;cursor:pointer}.rating input{position:absolute;opacity:0;pointer-events:none}.rating span{display:grid;place-items:center;width:42px;height:42px;border:1px solid #d8e0db;border-radius:10px;font-size:14px;font-weight:650;background:white}.rating input:checked+span{background:var(--accent);border-color:var(--accent);color:white}.rating label:hover span{border-color:var(--accent)}.scale-note{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:7px}
+button{width:100%;border:0;border-radius:11px;padding:14px 18px;background:var(--accent);color:#fff;font:inherit;font-weight:700;cursor:pointer}button:disabled{opacity:.6;cursor:wait}.privacy{font-size:11px;color:var(--muted);text-align:center;margin:14px auto 0;max-width:540px}.success{text-align:center;padding:50px 28px}.check{width:50px;height:50px;border-radius:50%;background:var(--accent2);color:var(--accent);display:grid;place-items:center;margin:0 auto 16px;font-size:25px}.success h2{margin:0 0 8px;font-size:25px}.success p{color:var(--muted)}.error-box{border-color:#efc5c1;color:var(--danger);margin-bottom:16px;padding:16px 18px;font-size:14px}footer{text-align:center;color:var(--muted);font-size:11px;padding:24px 0 0}.hidden{display:none!important}
+@media(max-width:480px){.wrap{padding:24px 12px 40px}.rating{gap:6px}.rating span{width:38px;height:40px}}
+</style></head>
+<body><main class="wrap">
+<header class="brand"><div class="mark">ECC</div><div><div class="brand-name">Editora Cultura Cristã</div><div class="brand-sub">Avaliação interna de eventos</div></div></header>
+<section class="hero"><div class="eyebrow">Sua opinião importa</div><h1>Vamos melhorar juntos os próximos eventos.</h1><p>Este formulário é destinado aos colaboradores que participaram da preparação ou execução de eventos. As perguntas mudam conforme o tipo de participação da ECC.</p></section>
+<div id="form-area"><div id="error-message" class="error-box hidden" role="alert"></div>
+<form id="feedback-form">
+<section class="section"><h2>1. Identificação</h2><p class="hint">Preencha os dados do evento e selecione a modalidade de participação da ECC.</p>
+<div class="field"><label for="person">Nome do colaborador <span class="required">*</span></label><input id="person" name="collaborator_name" type="text" required autocomplete="name" placeholder="Nome e sobrenome"></div>
+<div class="field"><label for="event">Nome do evento <span class="required">*</span></label><input id="event" name="event_name" type="text" required placeholder="Nome do evento"></div>
+<div class="field"><label for="start">Data de início <span class="required">*</span></label><input id="start" name="event_start_date" type="date" required></div>
+<div class="field"><label for="end">Data de término <span class="required">*</span></label><input id="end" name="event_end_date" type="date" required></div>
+<div class="field"><label for="type">Qual foi o tipo de participação da ECC neste evento? <span class="required">*</span></label><select id="type" name="participation_type" required><option value="">Selecione uma opção</option><option value="ecc_ipb_organized">Evento organizado pela ECC/IPB</option><option value="third_party_stand">Evento de terceiros com estande da ECC</option><option value="third_party_no_stand">Evento de terceiros sem estande da ECC</option><option value="other">Outro tipo de participação</option></select></div>
+<div id="other-wrap" class="field hidden"><label for="other">Descreva o tipo de participação <span class="required">*</span></label><input id="other" name="participation_other" type="text" placeholder="Descreva brevemente"></div>
+</section>
+<section id="ecc-section" class="section hidden"><h2>2. Avaliação da atuação da ECC</h2><p class="hint">Avalie apenas aspectos relacionados ao planejamento e ao trabalho da equipe da ECC. Escala de 1 (muito ruim) a 5 (excelente), com “Não se aplica” quando necessário.</p>
+<div id="ecc-ratings"></div>
+<div class="field"><label for="ecc-positive">Quais foram os principais pontos positivos da atuação da ECC?</label><textarea id="ecc-positive" name="ecc_positive_points" placeholder="O que funcionou bem na preparação e no trabalho da equipe?"></textarea></div>
+<div class="field"><label for="ecc-improve">O que poderia ter sido melhor na atuação da ECC?</label><textarea id="ecc-improve" name="ecc_improvement_points" placeholder="Compartilhe oportunidades de melhoria internas."></textarea></div>
+</section>
+<section id="org-section" class="section hidden"><h2>3. Avaliação da organização do evento</h2><p class="hint">Avalie a organização externa e as condições oferecidas aos expositores/equipe. Escala de 1 (muito ruim) a 5 (excelente), com “Não se aplica” quando necessário.</p>
+<div id="org-ratings"></div>
+<div class="field"><label for="org-positive">Quais foram os principais pontos positivos da organização do evento?</label><textarea id="org-positive" name="organizer_positive_points" placeholder="O que a organização fez bem?"></textarea></div>
+<div class="field"><label for="org-improve">O que poderia ter sido melhor na organização do evento?</label><textarea id="org-improve" name="organizer_improvement_points" placeholder="O que deveria ser melhorado pela organização?"></textarea></div>
+</section>
+<section id="general-section" class="section hidden"><h2>4. Avaliação geral e próxima edição</h2><p class="hint">Considere sua experiência como colaborador, os objetivos da ECC e os recursos investidos.</p>
+<div class="field"><label for="recommendation">Você acha que a ECC deve participar da próxima edição deste evento? <span class="required">*</span></label><select id="recommendation" name="next_edition_recommendation" required><option value="">Selecione uma resposta</option><option value="yes">Sim</option><option value="yes_with_adjustments">Sim, mas com ajustes</option><option value="no">Não</option><option value="insufficient_information">Ainda não tenho informações suficientes para avaliar</option></select></div>
+<div class="field"><label for="reason">Explique o motivo da sua resposta <span class="required">*</span></label><textarea id="reason" name="next_edition_reason" required placeholder="Considere resultados, público, oportunidades, custos, organização e benefícios para a ECC."></textarea></div>
+<div class="field"><label for="future">O que deveríamos manter ou mudar para melhorar uma eventual participação futura?</label><textarea id="future" name="future_recommendations" placeholder="Sugestões práticas para os próximos eventos."></textarea></div>
+<div class="field"><label for="overall">Nota geral da experiência como colaborador (0 a 10) <span class="required">*</span></label><div class="rating" data-name="overall_rating" data-min="0" data-max="10" data-required="true"></div><div class="scale-note"><span>0 · Muito ruim</span><span>10 · Excelente</span></div></div>
+</section>
+<button type="submit" id="submit-btn">Enviar avaliação</button><p class="privacy">As respostas são destinadas à avaliação interna e ao aprimoramento da participação da Editora Cultura Cristã em eventos.</p>
+</form></div>
+<section id="success" class="success hidden" aria-live="polite"><div class="check">✓</div><h2>Obrigado pela sua contribuição!</h2><p>Sua avaliação foi enviada e ajudará a aprimorar a participação da ECC nos próximos eventos.</p></section>
+<footer>Editora Cultura Cristã · Feedback de eventos</footer></main>
 <script>
-/* A chave publishable é destinada ao uso no navegador. Nunca coloque uma chave secret aqui. */
-const SUPABASE_URL = 'https://aktmdusegtpgfimypwbi.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_AaU899teNG2lmb_AsHQ1HA_XEijQG5R';
-
-document.querySelectorAll('.rating').forEach(group => {
-  const name = group.dataset.name;
-  const max = Number(group.dataset.max || 5);
-  for (let n = (max === 10 ? 0 : 1); n <= max; n++) {
-    const label = document.createElement('label');
-    const input = document.createElement('input');
-    input.type = 'radio'; input.name = name; input.value = String(n); input.required = true;
-    const span = document.createElement('span'); span.textContent = n;
-    label.append(input, span); group.append(label);
-  }
-});
-
-const startDateInput = document.getElementById('event-start-date');
-const endDateInput = document.getElementById('event-end-date');
-
-function validateEventDates() {
-  const start = startDateInput.value;
-  const end = endDateInput.value;
-  endDateInput.setCustomValidity(start && end && end < start
-    ? 'A data de término não pode ser anterior à data de início.'
-    : '');
+const SUPABASE_URL='https://aktmdusegtpgfimypwbi.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_AaU899teNG2lmb_AsHQ1HA_XEijQG5R';
+const form=document.getElementById('feedback-form'), typeSelect=document.getElementById('type');
+const start=document.getElementById('start'), end=document.getElementById('end');
+const submitButton=document.getElementById('submit-btn'), errorBox=document.getElementById('error-message');
+const eccQuestions=[
+['ecc_planning_rating','Planejamento prévio da participação'],
+['ecc_internal_communication_rating','Comunicação e alinhamento entre a equipe da ECC'],
+['ecc_materials_rating','Preparação e disponibilidade de livros e materiais'],
+['ecc_stand_rating','Montagem, organização e apresentação do estande (quando aplicável)'],
+['ecc_logistics_rating','Logística de transporte, chegada e organização dos materiais'],
+['ecc_teamwork_rating','Colaboração e divisão de responsabilidades da equipe'],
+['ecc_results_rating','Resultados da participação em relação aos objetivos estabelecidos']
+];
+const orgQuestions=[
+['organizer_communication_rating','Clareza e antecedência das informações fornecidas pela organização'],
+['organizer_infrastructure_rating','Infraestrutura e condições oferecidas à equipe/expositores'],
+['organizer_location_flow_rating','Localização do estande e circulação de visitantes (quando aplicável)'],
+['organizer_setup_rating','Orientações e condições para montagem e desmontagem (quando aplicável)'],
+['organizer_support_rating','Atendimento e suporte prestado pela organização'],
+['organizer_program_flow_rating','Programação e fluxo de público em relação às necessidades da equipe/expositores'],
+['organizer_cost_benefit_rating','Relação entre o investimento da ECC e as condições oferecidas']
+];
+function renderQuestions(containerId,questions){
+ const root=document.getElementById(containerId);
+ root.innerHTML='';
+ questions.forEach(([name,labelText])=>{
+  const field=document.createElement('div');field.className='field';
+  const label=document.createElement('div');label.className='label';label.textContent=labelText;
+  const rating=document.createElement('div');rating.className='rating';rating.dataset.name=name;
+  rating.setAttribute('role','radiogroup');rating.setAttribute('aria-label',labelText);
+  for(let n=1;n<=5;n++){const l=document.createElement('label'),i=document.createElement('input'),s=document.createElement('span');i.type='radio';i.name=name;i.value=String(n);s.textContent=n;l.append(i,s);rating.append(l);}
+  const na=document.createElement('label'),ni=document.createElement('input'),ns=document.createElement('span');ni.type='radio';ni.name=name;ni.value='';ni.dataset.na='true';ns.textContent='N/A';na.title='Não se aplica';na.append(ni,ns);rating.append(na);
+  field.append(label,rating);root.append(field);
+ });
 }
-startDateInput.addEventListener('change', validateEventDates);
-endDateInput.addEventListener('change', validateEventDates);
-
-const form = document.getElementById('feedback-form');
-const submitButton = document.getElementById('submit-btn');
-const errorBox = document.getElementById('error-message');
-
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  validateEventDates();
-  if (!form.reportValidity()) return;
-  errorBox.classList.add('hidden');
-  errorBox.textContent = '';
-
-  const values = new FormData(form);
-  const rating = (name) => {
-    const value = values.get(name);
-    return value === null ? null : Number(value);
-  };
-
-  const payload = {
-    collaborator_name: String(values.get('person') || '').trim(),
-    event_name: String(values.get('event') || '').trim(),
-    event_start_date: String(values.get('event_start_date') || ''),
-    event_end_date: String(values.get('event_end_date') || ''),
-    organization_rating: rating('organization'),
-    communication_rating: rating('communication'),
-    venue_rating: rating('venue'),
-    schedule_rating: rating('program'),
-    overall_rating: rating('overall'),
-    positive_points: String(values.get('positive') || '').trim() || null,
-    improvement_points: String(values.get('improve') || '').trim() || null,
-    suggestions: String(values.get('suggestions') || '').trim() || null
-  };
-
-  submitButton.disabled = true;
-  submitButton.textContent = 'Enviando avaliação...';
-
-  try {
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/event_feedback`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPABASE_PUBLISHABLE_KEY,
-        'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-      let details = '';
-      try {
-        const body = await response.json();
-        details = body.message || body.details || body.hint || '';
-      } catch (_) {}
-      throw new Error(details || `O servidor respondeu com o código ${response.status}.`);
-    }
-
-    document.getElementById('form-area').classList.add('hidden');
-    document.getElementById('success').classList.remove('hidden');
-    form.reset();
-  } catch (error) {
-    errorBox.textContent = 'Não foi possível enviar sua avaliação. Confira sua conexão e tente novamente. Detalhe: ' + error.message;
-    errorBox.classList.remove('hidden');
-    submitButton.disabled = false;
-    submitButton.textContent = 'Enviar avaliação';
-  }
+function renderOverall(){
+ const root=document.querySelector('[data-name="overall_rating"]');
+ for(let n=0;n<=10;n++){const l=document.createElement('label'),i=document.createElement('input'),s=document.createElement('span');i.type='radio';i.name='overall_rating';i.value=String(n);i.required=true;s.textContent=n;l.append(i,s);root.append(l);}
+}
+renderQuestions('ecc-ratings',eccQuestions);renderQuestions('org-ratings',orgQuestions);renderOverall();
+const eccSection=document.getElementById('ecc-section'),orgSection=document.getElementById('org-section'),generalSection=document.getElementById('general-section'),otherWrap=document.getElementById('other-wrap'),otherInput=document.getElementById('other');
+function updateSections(){
+ const t=typeSelect.value;
+ const showEcc=!!t, showOrg=['third_party_stand','third_party_no_stand'].includes(t);
+ eccSection.classList.toggle('hidden',!showEcc);
+ orgSection.classList.toggle('hidden',!showOrg);
+ generalSection.classList.toggle('hidden',!t);
+ otherWrap.classList.toggle('hidden',t!=='other');otherInput.required=t==='other';
+ // Cada critério visível exige uma nota ou N/A; critérios ocultos não bloqueiam o envio.
+ document.querySelectorAll('#ecc-ratings .rating,#org-ratings .rating').forEach(group=>{
+   const active=group.closest('#ecc-ratings')?showEcc:showOrg;
+   const radios=[...group.querySelectorAll('input[type=radio]')];
+   radios.forEach((input,index)=>input.required=active&&index===0);
+ });
+}
+typeSelect.addEventListener('change',updateSections);updateSections();
+function validateDates(){end.setCustomValidity(start.value&&end.value&&end.value<start.value?'A data de término não pode ser anterior à data de início.':'');}
+start.addEventListener('change',validateDates);end.addEventListener('change',validateDates);
+function ratingValue(fd,name){const v=fd.get(name);return v===null||v===''?null:Number(v);}
+function textValue(fd,name){return String(fd.get(name)||'').trim()||null;}
+form.addEventListener('submit',async e=>{
+ e.preventDefault();validateDates();if(!form.reportValidity())return;
+ errorBox.classList.add('hidden');errorBox.textContent='';
+ const fd=new FormData(form),t=String(fd.get('participation_type'));
+ const payload={
+ collaborator_name:String(fd.get('collaborator_name')||'').trim(),
+ event_name:String(fd.get('event_name')||'').trim(),
+ event_start_date:String(fd.get('event_start_date')||''),event_end_date:String(fd.get('event_end_date')||''),
+ participation_type:t,participation_other:textValue(fd,'participation_other'),
+ ecc_planning_rating:null,ecc_internal_communication_rating:null,ecc_materials_rating:null,ecc_stand_rating:null,ecc_logistics_rating:null,ecc_teamwork_rating:null,ecc_results_rating:null,
+ organizer_communication_rating:null,organizer_infrastructure_rating:null,organizer_location_flow_rating:null,organizer_setup_rating:null,organizer_support_rating:null,organizer_program_flow_rating:null,organizer_cost_benefit_rating:null,
+ ecc_positive_points:null,ecc_improvement_points:null,organizer_positive_points:null,organizer_improvement_points:null,
+ next_edition_recommendation:String(fd.get('next_edition_recommendation')||''),next_edition_reason:String(fd.get('next_edition_reason')||'').trim(),
+ future_recommendations:textValue(fd,'future_recommendations'),overall_rating:ratingValue(fd,'overall_rating')
+ };
+ if(t==='ecc_ipb_organized'||t==='third_party_stand'||t==='third_party_no_stand'||t==='other'){
+  eccQuestions.forEach(([name])=>payload[name]=ratingValue(fd,name));
+  payload.ecc_positive_points=textValue(fd,'ecc_positive_points');payload.ecc_improvement_points=textValue(fd,'ecc_improvement_points');
+ }
+ if(t==='third_party_stand'||t==='third_party_no_stand'){
+  orgQuestions.forEach(([name])=>payload[name]=ratingValue(fd,name));
+  payload.organizer_positive_points=textValue(fd,'organizer_positive_points');payload.organizer_improvement_points=textValue(fd,'organizer_improvement_points');
+ }
+ submitButton.disabled=true;submitButton.textContent='Enviando avaliação...';
+ try{
+  const response=await fetch(`${SUPABASE_URL}/rest/v1/event_feedback`,{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_PUBLISHABLE_KEY,'Authorization':`Bearer ${SUPABASE_PUBLISHABLE_KEY}`,'Prefer':'return=minimal'},body:JSON.stringify(payload)});
+  if(!response.ok){let details='';try{const b=await response.json();details=b.message||b.details||b.hint||'';}catch(_){}throw new Error(details||`O servidor respondeu com o código ${response.status}.`);}
+  document.getElementById('form-area').classList.add('hidden');document.getElementById('success').classList.remove('hidden');form.reset();
+ }catch(err){errorBox.textContent='Não foi possível enviar sua avaliação. Confira sua conexão e tente novamente. Detalhe: '+err.message;errorBox.classList.remove('hidden');submitButton.disabled=false;submitButton.textContent='Enviar avaliação';}
 });
-</script>
-</body>
-</html>
+</script></body></html>
