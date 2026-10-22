@@ -10,12 +10,13 @@
 *{box-sizing:border-box} body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
 .wrap{max-width:760px;margin:0 auto;padding:32px 18px 60px}.brand{display:flex;align-items:center;gap:12px;margin-bottom:30px}.mark{width:42px;height:42px;border:1px solid #c8d4cd;border-radius:12px;display:grid;place-items:center;color:var(--accent);font-weight:800;letter-spacing:-1px;background:#fff}.brand-name{font-size:13px;font-weight:750;letter-spacing:.12em;text-transform:uppercase}.brand-sub{font-size:12px;color:var(--muted);margin-top:2px}
 .hero{margin-bottom:24px}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.16em;font-weight:750;color:var(--accent);margin-bottom:8px}.hero h1{font-size:clamp(30px,5vw,42px);line-height:1.08;letter-spacing:-.045em;margin:0 0 12px;font-weight:720}.hero p{margin:0;color:var(--muted);max-width:590px}
-form,.success{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,4vw,34px);box-shadow:0 8px 30px #1c32250a}
+form,.success,.error-box{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,4vw,34px);box-shadow:0 8px 30px #1c32250a}
 .section{padding:0 0 25px;margin:0 0 25px;border-bottom:1px solid var(--line)}.section:last-of-type{border:0;padding-bottom:0;margin-bottom:18px}.section h2{font-size:15px;margin:0 0 5px;letter-spacing:-.01em}.section .hint{font-size:13px;color:var(--muted);margin:0 0 18px}
-.field{margin:0 0 18px}.field:last-child{margin-bottom:0}label,.label{display:block;font-size:13px;font-weight:650;margin-bottom:8px} .required{color:var(--accent)} input[type=text],input[type=date],textarea{width:100%;border:1px solid #d8e0db;border-radius:10px;padding:12px 13px;font:inherit;font-size:14px;color:var(--ink);background:#fff;outline:none}input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #244d4017}textarea{min-height:94px;resize:vertical}
+.field{margin:0 0 18px}.field:last-child{margin-bottom:0}label,.label{display:block;font-size:13px;font-weight:650;margin-bottom:8px}.required{color:var(--accent)} input[type=text],input[type=date],textarea{width:100%;border:1px solid #d8e0db;border-radius:10px;padding:12px 13px;font:inherit;font-size:14px;color:var(--ink);background:#fff;outline:none}input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #244d4017}textarea{min-height:94px;resize:vertical}
 .rating{display:flex;gap:8px;flex-wrap:wrap}.rating label{margin:0;cursor:pointer}.rating input{position:absolute;opacity:0;pointer-events:none}.rating span{display:grid;place-items:center;width:43px;height:42px;border:1px solid #d8e0db;border-radius:10px;font-size:14px;font-weight:650;background:white;transition:.15s}.rating input:checked+span{background:var(--accent);border-color:var(--accent);color:white}.rating label:hover span{border-color:var(--accent)}
 .scale-note{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:7px}
 button{width:100%;border:0;border-radius:11px;padding:14px 18px;background:var(--accent);color:#fff;font:inherit;font-weight:700;cursor:pointer}button:hover{filter:brightness(1.08)}button:disabled{opacity:.6;cursor:wait}.privacy{font-size:11px;color:var(--muted);text-align:center;margin:14px auto 0;max-width:540px}.success{text-align:center;padding:50px 28px}.check{width:50px;height:50px;border-radius:50%;background:var(--accent2);color:var(--accent);display:grid;place-items:center;margin:0 auto 16px;font-size:25px}.success h2{margin:0 0 8px;font-size:25px}.success p{color:var(--muted);margin:0}
+.error-box{border-color:#efc5c1;color:var(--danger);margin-bottom:16px;padding:16px 18px;font-size:14px}
 footer{text-align:center;color:var(--muted);font-size:11px;padding:24px 0 0}
 .hidden{display:none!important}
 @media(max-width:480px){.wrap{padding:24px 12px 40px}.brand{margin-bottom:25px}.rating{gap:6px}.rating span{width:39px;height:40px}}
@@ -33,12 +34,13 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:24px 0 0}
     <p>Compartilhe sua experiência. Suas respostas ajudam a reconhecer o que funcionou bem e identificar oportunidades de melhoria.</p>
   </section>
   <div id="form-area">
+    <div id="error-message" class="error-box hidden" role="alert"></div>
     <form id="feedback-form">
       <section class="section">
         <h2>Sobre você e o evento</h2><p class="hint">Preencha os dados para identificarmos e organizarmos cada avaliação.</p>
         <div class="field"><label for="person">Seu nome <span class="required">*</span></label><input id="person" name="person" type="text" autocomplete="name" required placeholder="Nome e sobrenome"></div>
         <div class="field"><label for="event">Nome do evento <span class="required">*</span></label><input id="event" name="event" type="text" required placeholder="Ex.: Congresso, lançamento, encontro interno"></div>
-        <div class="field"><label for="event-date">Data do evento</label><input id="event-date" name="event_date" type="date"></div>
+        <div class="field"><label for="event-date">Data do evento <span class="required">*</span></label><input id="event-date" name="event_date" type="date" required></div>
       </section>
       <section class="section">
         <h2>Avaliação da experiência</h2><p class="hint">Selecione uma nota de 1 a 5, em que 1 é muito ruim e 5 é excelente.</p>
@@ -59,12 +61,15 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:24px 0 0}
       <p class="privacy">As respostas identificadas serão utilizadas pela Editora Cultura Cristã para avaliar e aprimorar a organização de seus eventos.</p>
     </form>
   </div>
-  <section id="success" class="success hidden" aria-live="polite"><div class="check">✓</div><h2>Obrigado pela sua contribuição!</h2><p>Sua avaliação é importante para aprimorarmos os próximos eventos da Editora Cultura Cristã.</p></section>
+  <section id="success" class="success hidden" aria-live="polite"><div class="check">✓</div><h2>Obrigado pela sua contribuição!</h2><p>Sua avaliação foi enviada. Ela ajudará a aprimorar os próximos eventos da Editora Cultura Cristã.</p></section>
   <footer>Editora Cultura Cristã · Feedback de eventos</footer>
 </main>
 <script>
-const ratingGroups = document.querySelectorAll('.rating');
-ratingGroups.forEach(group => {
+/* A chave publishable é destinada ao uso no navegador. Nunca coloque uma chave secret aqui. */
+const SUPABASE_URL = 'https://aktmdusegtpgfimypwbi.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_AaU899teNG2lmb_AsHQ1HA_XEijQG5R';
+
+document.querySelectorAll('.rating').forEach(group => {
   const name = group.dataset.name;
   const max = Number(group.dataset.max || 5);
   for (let n = (max === 10 ? 0 : 1); n <= max; n++) {
@@ -75,9 +80,69 @@ ratingGroups.forEach(group => {
     label.append(input, span); group.append(label);
   }
 });
-document.getElementById('feedback-form').addEventListener('submit', async e => {
+
+const form = document.getElementById('feedback-form');
+const submitButton = document.getElementById('submit-btn');
+const errorBox = document.getElementById('error-message');
+
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  alert('Esta é uma prévia visual. Para receber e armazenar respostas, a página precisa ser conectada ao banco de dados e publicada. Consulte o README incluído no pacote.');
+  errorBox.classList.add('hidden');
+  errorBox.textContent = '';
+
+  const values = new FormData(form);
+  const rating = (name) => {
+    const value = values.get(name);
+    return value === null ? null : Number(value);
+  };
+
+  const payload = {
+    collaborator_name: String(values.get('person') || '').trim(),
+    event_name: String(values.get('event') || '').trim(),
+    event_date: String(values.get('event_date') || ''),
+    organization_rating: rating('organization'),
+    communication_rating: rating('communication'),
+    venue_rating: rating('venue'),
+    schedule_rating: rating('program'),
+    overall_rating: rating('overall'),
+    positive_points: String(values.get('positive') || '').trim() || null,
+    improvement_points: String(values.get('improve') || '').trim() || null,
+    suggestions: String(values.get('suggestions') || '').trim() || null
+  };
+
+  submitButton.disabled = true;
+  submitButton.textContent = 'Enviando avaliação...';
+
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/event_feedback`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_PUBLISHABLE_KEY,
+        'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      let details = '';
+      try {
+        const body = await response.json();
+        details = body.message || body.details || body.hint || '';
+      } catch (_) {}
+      throw new Error(details || `O servidor respondeu com o código ${response.status}.`);
+    }
+
+    document.getElementById('form-area').classList.add('hidden');
+    document.getElementById('success').classList.remove('hidden');
+    form.reset();
+  } catch (error) {
+    errorBox.textContent = 'Não foi possível enviar sua avaliação. Confira sua conexão e tente novamente. Detalhe: ' + error.message;
+    errorBox.classList.remove('hidden');
+    submitButton.disabled = false;
+    submitButton.textContent = 'Enviar avaliação';
+  }
 });
 </script>
 </body>
